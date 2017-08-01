@@ -199,4 +199,5 @@ FakesAssemblies/
 *.opt
 
 .DS_STORE
+.DS_Store
 .idea/

@@ -6,13 +6,17 @@ RUN apt-get install -y nodejs npm
 RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10
 RUN npm install -g bower
 
-COPY ./src/MvcClient/MvcClient.csproj /app/
+COPY ./MvcClient.csproj /app/
 COPY ./NuGet.Config /app/
 WORKDIR /app/
-RUN dotnet restore
-ADD ./src/MvcClient/ /app/
-
-RUN dotnet publish -c Debug -o out
+RUN ["dotnet","restore"]
+ADD . /app/
+RUN ["dotnet","build"]
 
 EXPOSE 5002
-ENTRYPOINT ["dotnet", "out/MvcClient.dll"]
+
+#For Production Image
+#RUN dotnet publish -c Debug -o out
+#ENTRYPOINT ["dotnet", "out/IdentityServerWithAspNetIdentity.dll"]
+
+CMD ["dotnet", "watch", "run"]
